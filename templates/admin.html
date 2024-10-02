@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Jobben.de</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="logo">Jobben.de</a>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/admin">Admin Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="admin">
+            <h2>Admin Panel</h2>
+            
+            <!-- Add Job Form -->
+            <h3>Add Job</h3>
+            <form action="/admin/add" method="POST">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+                
+                <label for="company">Company:</label>
+                <input type="text" id="company" name="company" required>
+                
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required>
+                
+                <label for="latitude">Latitude:</label>
+                <input type="text" id="latitude" name="latitude" required>
+                
+                <label for="longitude">Longitude:</label>
+                <input type="text" id="longitude" name="longitude" required>
+                
+                <label for="salary">Salary:</label>
+                <input type="text" id="salary" name="salary">
+                
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+                
+                <button type="submit">Add Job</button>
+            </form>
+
+            <!-- Manage Jobs Section -->
+            <h3>Manage Jobs</h3>
+            <ul>
+                {% for job in jobs %}
+                <li>
+                    <h4>{{ job.title }}</h4>
+                    <p><strong>Company:</strong> {{ job.company }}</p>
+                    <p><strong>Location:</strong> {{ job.location }}</p>
+                    <p><strong>Latitude:</strong> {{ job.latitude }}</p>
+                    <p><strong>Longitude:</strong> {{ job.longitude }}</p>
+                    <p><strong>Salary:</strong> {{ job.salary }}</p>
+                    <p><strong>Description:</strong> {{ job.description }}</p>
+                    
+                    <!-- Edit Job Form -->
+                    <form action="/admin/edit/{{ job.id }}" method="POST" style="display:inline;">
+                        <button type="button" onclick="toggleEditForm('{{ job.id }}')">Edit</button>
+                    </form>
+                    
+                    <!-- Edit Form (Initially hidden) -->
+                    <form id="edit-form-{{ job.id }}" action="/admin/edit/{{ job.id }}" method="POST" style="display:none;">
+                        <label for="title-{{ job.id }}">Title:</label>
+                        <input type="text" id="title-{{ job.id }}" name="title" value="{{ job.title }}" required>
+                        
+                        <label for="company-{{ job.id }}">Company:</label>
+                        <input type="text" id="company-{{ job.id }}" name="company" value="{{ job.company }}" required>
+                        
+                        <label for="location-{{ job.id }}">Location:</label>
+                        <input type="text" id="location-{{ job.id }}" name="location" value="{{ job.location }}" required>
+                        
+                        <label for="latitude-{{ job.id }}">Latitude:</label>
+                        <input type="text" id="latitude-{{ job.id }}" name="latitude" value="{{ job.latitude }}" required>
+                        
+                        <label for="longitude-{{ job.id }}">Longitude:</label>
+                        <input type="text" id="longitude-{{ job.id }}" name="longitude" value="{{ job.longitude }}" required>
+                        
+                        <label for="salary-{{ job.id }}">Salary:</label>
+                        <input type="text" id="salary-{{ job.id }}" name="salary" value="{{ job.salary }}">
+                        
+                        <label for="description-{{ job.id }}">Description:</label>
+                        <textarea id="description-{{ job.id }}" name="description" required>{{ job.description }}</textarea>
+                        
+                        <button type="submit">Update Job</button>
+                    </form>
+                    
+                    <form action="/admin/delete/{{ job.id }}" method="POST" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <!-- Manage Admins Section -->
+            <h3>Manage Admins</h3>
+            <a href="/admin/register" class="signup-button">Register New Admin</a>
+            <ul>
+                {% for admin in admins %}
+                <li>
+                    <h4>{{ admin.username }}</h4>
+                    <form action="/admin/delete_user/{{ admin.id }}" method="POST" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Jobben.de. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleEditForm(jobId) {
+            const form = document.getElementById(`edit-form-${jobId}`);
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>

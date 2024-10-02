@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Inline styles to enhance the page design */
+
+        /* Container Styling */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            background-color: #f7f9fc;
+            padding: 50px 20px;
+        }
+
+        h2 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 18px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .signup-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .signup-button {
+            display: inline-block;
+            background-color: #007bff; /* Primary blue */
+            color: white;
+            padding: 14px 28px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .signup-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+
+        footer {
+            background-color: #004d99;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="logo">Jobben.de</a>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="container">
+            <h2>Signup</h2>
+            <p>Are you looking for a job or are you an employer looking to post jobs?</p>
+            <div class="signup-options">
+                <a href="{{ url_for('signup_job_seeker') }}" class="signup-button">I am Looking for a Job</a>
+                <a href="{{ url_for('signup_employer') }}" class="signup-button">I am an Employer</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Jobben.de. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

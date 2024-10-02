@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ job.title }} - Jobben.de</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="logo" aria-label="Home">Jobben.de</a>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/signup">Signup</a></li>
+                    <li><a href="/admin">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="container job-detail">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                                <button type="button" class="close-alert">&times;</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <div class="job-header">
+                <h1>{{ job.title }}</h1>
+                <p class="company">{{ job.company }}</p>
+                <p class="location">{{ job.location }}</p>
+                <p class="salary">{{ job.salary }}</p>
+            </div>
+
+            <div class="job-description">
+                <h2>Job Description</h2>
+                <p>{{ job.description }}</p>
+            </div>
+
+            <div class="apply-section">
+                <h3>Apply for this Job</h3>
+                <form action="{{ url_for('job_detail', job_id=job.id) }}" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="resume">Resume (PDF only):</label>
+                        <input type="file" id="resume" name="resume" accept=".pdf" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Submit Application</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Jobben.de. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
