@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+      - ./static:/app/static
+      - ./templates:/app/templates
+      - ./uploads:/app/uploads
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+      - DATABASE_URL=mysql+pymysql://root:6AHope@db/jobben_database
+    depends_on:
+      - db
+    command: flask run --host=0.0.0.0 --port=5000
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 6AHope
+      MYSQL_DATABASE: jobben_database
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 6AHope
+      MYSQL_ROOT_HOST: '%'
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306" # Ensure this port is available or modify if needed.
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: 6AHope
+
+volumes:
+  mysql_data:
