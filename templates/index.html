@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobben.de</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Leaflet CSS for the map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="logo" aria-label="Home">Jobben.de</a>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/signup">Signup</a></li>
+                    <li><a href="/admin">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-background" style="background: url('{{ url_for('static', filename='hero-background.jpg') }}') no-repeat center center; background-size: cover;">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <h1>Discover Casual Job Opportunities</h1>
+                        <p>Connect with local employers and find flexible, part-time, or temporary jobs that fit your lifestyle.</p>
+                        <a href="/signup" class="cta-button" aria-label="Sign up to get started">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <h2>Current Job Openings</h2>
+            <!-- Updated Search Bar with Form -->
+            <div class="search-bar">
+                <form action="{{ url_for('index') }}" method="GET">
+                    <input type="text" id="search" name="search_query" aria-label="Search jobs" placeholder="Search jobs..." value="{{ search_query }}">
+                    <button type="submit" class="btn btn-primary" aria-label="Submit search">Search</button>
+                </form>
+            </div>
+
+            <!-- Job Listings -->
+            <div class="job-listings">
+                {% for job in jobs.items %}
+                <div class="job-listing">
+                    <img src="{{ url_for('static', filename='job-placeholder.jpg') }}" alt="Image for {{ job.title }}" class="job-image">
+                    <h3>{{ job.title }}</h3>
+                    <p class="company">{{ job.company }}</p>
+                    <p class="location">{{ job.location }}</p>
+                    <p class="salary">{{ job.salary }}</p>
+                    <p class="description">{{ job.description[:100] }}...</p>
+                    <a href="{{ url_for('job_detail', job_id=job.id) }}" class="apply-button" aria-label="View details for {{ job.title }}">View Details</a>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if jobs.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('index', page=jobs.prev_num) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% for page_num in jobs.iter_pages() %}
+                        {% if page_num %}
+                        <li class="page-item {% if page_num == jobs.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('index', page=page_num) }}" aria-label="Page {{ page_num }}">{{ page_num }}</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled"><span class="page-link">…</span></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if jobs.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('index', page=jobs.next_num) }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </section>
+
+        <!-- Map Section -->
+        <section class="container">
+            <h2>Jobs in Cities</h2>
+            <div id="map" style="height: 500px;"></div>
+        </section>
+
+        <section class="signup-section">
+            <h2>Join Us</h2>
+            <div class="signup-options">
+                <div class="signup-option">
+                    <h3>Looking for a Job?</h3>
+                    <p>Sign up to apply for jobs and get hired.</p>
+                    <a href="/signup/job_seeker" class="signup-button" aria-label="Sign up as a job seeker">Job Seeker Signup</a>
+                </div>
+                <div class="signup-option">
+                    <h3>Hiring Employees?</h3>
+                    <p>Sign up to post jobs and find the right candidates.</p>
+                    <a href="/signup/employer" class="signup-button" aria-label="Sign up as an employer">Employer Signup</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Jobben.de. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS for the map -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <script>
+        var map = L.map('map').setView([52.5200, 13.4050], 10); // Set map view to Berlin, Germany
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Example job data with lat and lng (this will come from your backend)
+        var jobs = [
+            {% for job in jobs.items %}
+            {
+                title: "{{ job.title }}",
+                company: "{{ job.company }}",
+                location: "{{ job.location }}",
+                lat: {{ job.latitude if job.latitude else 'null' }},
+                lng: {{ job.longitude if job.longitude else 'null' }},
+                url: "{{ url_for('job_detail', job_id=job.id) }}"
+            },
+            {% endfor %}
+        ];
+
+        // Add markers for each job
+        jobs.forEach(function(job) {
+            if (job.lat && job.lng) {  // Check if job has valid coordinates
+                var marker = L.marker([job.lat, job.lng]).addTo(map);
+                marker.bindPopup(`<b>${job.title}</b><br>${job.company}<br><a href="${job.url}" aria-label="More details about ${job.title}">View Details</a>`);
+            }
+        });
+    </script>
+</body>
+
+</html>

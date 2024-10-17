@@ -1,0 +1,534 @@
+/* Reset some default styles */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Basic styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f8; /* Light greyish blue background */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Container */
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Header */
+header {
+    background-color: #004d99; /* Dark blue */
+    color: white;
+    padding: 15px 0;
+}
+
+header .logo {
+    font-size: 28px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+header nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    height: 500px;
+    background: url('{{ url_for('static', filename='hero-background.jpg') }}') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: flyIn 1.5s ease-out forwards;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Slightly darker overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-content {
+    color: white;
+    text-align: center;
+    z-index: 1;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #f7f7f7; /* Light greyish white */
+    animation: flyFromTop 1s ease-out forwards;
+}
+
+.hero p {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #f7f7f7;
+    animation: flyFromTop 1s ease-out 0.5s forwards;
+}
+
+.cta-button {
+    background-color: #007bff; /* Primary blue */
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.cta-button:hover {
+    background-color: #0056b3; /* Darker blue */
+}
+
+/* Main Content */
+main {
+    padding: 20px 0;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0056b3; /* Primary blue */
+    font-size: 36px;
+}
+
+.search-bar {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    width: 100%;
+    max-width: 600px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Job Listings */
+.job-listings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.job-listing {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%;
+    max-width: calc(33.333% - 20px); /* Adjust width to fit 3 items per row with gap */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.job-listing:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+}
+
+.job-listing img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.job-listing h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #0056b3; /* Primary blue */
+}
+
+.job-listing .company {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.job-listing .location {
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.job-listing .salary {
+    color: #007bff; /* Primary blue */
+    margin-bottom: 10px;
+}
+
+.job-listing .description {
+    margin-bottom: 15px;
+    color: #757575; /* Medium grey */
+}
+
+.apply-button {
+    display: inline-block;
+    background-color: #28a745; /* Success green */
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.apply-button:hover {
+    background-color: #218838; /* Darker green */
+}
+
+/* Job Detail Section */
+.job-detail {
+    margin-top: 20px;
+    padding: 20px;
+    background: #ffffff; /* White background */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.job-header {
+    border-bottom: 2px solid #0056b3; /* Blue underline */
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.job-header h1 {
+    font-size: 28px;
+    color: #0056b3; /* Primary blue */
+    margin-bottom: 10px;
+}
+
+.job-header .company,
+.job-header .location,
+.job-header .salary {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.job-description {
+    margin-bottom: 20px;
+}
+
+.job-description h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.job-description p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Form Styling */
+.apply-section {
+    background: #f9f9f9; /* Light grey background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
+}
+
+.apply-section h3 {
+    font-size: 22px;
+    color: #0056b3; /* Primary blue */
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea,
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical; /* Allow vertical resizing only */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Primary blue */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue */
+}
+
+/* Flash Messages */
+.alert {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    position: relative;
+    display: block;
+}
+
+.alert-success {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green */
+    border: 1px solid #c3e6cb; /* Green border */
+}
+
+.alert-danger {
+    background-color: #f8d7da; /* Light red */
+    color: #721c24; /* Dark red */
+    border: 1px solid #f5c6cb; /* Red border */
+}
+
+.alert-info {
+    background-color: #d1ecf1; /* Light blue */
+    color: #0c5460; /* Dark blue */
+    border: 1px solid #bee5eb; /* Blue border */
+}
+
+.alert-warning {
+    background-color: #fff3cd; /* Light yellow */
+    color: #856404; /* Dark yellow */
+    border: 1px solid #ffeeba; /* Yellow border */
+}
+
+.alert button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: transparent;
+    font-size: 1.2em;
+    color: inherit;
+    cursor: pointer;
+}
+
+.alert button:hover {
+    color: #000;
+}
+
+/* Pagination */
+.pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.pagination a {
+    color: #007bff; /* Primary blue */
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 0 5px;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Join Us Section */
+.signup-section {
+    background-color: #f7f9fc;
+    padding: 50px 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 40px 0;
+}
+
+.signup-section h2 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.signup-options {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.signup-option {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 30px 20px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.signup-option h3 {
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: 15px;
+}
+
+.signup-option p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.signup-button {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 12px 25px;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.signup-button:hover {
+    background-color: #45a049;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.signup-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Keyframes for animations */
+@keyframes flyIn {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes flyFromTop {
+    0% {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header nav ul {
+        text-align: center;
+        padding-top: 10px;
+    }
+    
+    header nav ul li {
+        display: block;
+        margin: 5px 0;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero p {
+        font-size: 20px;
+    }
+
+    .job-listings {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .job-listing {
+        max-width: 100%;
+        margin: 10px 0;
+    }
+
+    .signup-options {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    header .logo {
+        font-size: 24px;
+    }
+    
+    header nav ul li {
+        font-size: 14px;
+    }
+    
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+    
+    .job-listing h3 {
+        font-size: 18px;
+    }
+}
